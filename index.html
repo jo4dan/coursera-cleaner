@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coursera Cleaner 🧹</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: monospace;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      background-color: #222;
+      color: #eee;
+      border: 1px solid #555;
+      padding: 10px;
+      resize: vertical;
+    }
+    pre {
+      background-color: #222;
+      color: #0f0;
+      padding: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    #copyBtn {
+      background-color: #08f;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    #copyBtn:hover {
+      background-color: #06c;
+    }
+    #copyMsg {
+      color: #0f0;
+      margin-left: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #copyMsg.show {
+      opacity: 1;
+    }
+    .credit {
+      color: rgb(57, 255, 20);
+    }
+    a {
+      color: rgb(57, 255, 20);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h2>
+    Coursera Text Cleaner 💻
+    <span class="credit">
+      <a href="https://github.com/jo4dan" target="_blank">github.com/jo4dan</a>
+    </span>
+  </h2>
+
+  <textarea id="inputText" placeholder="paste your raw text here..."></textarea><br>
+
+  <h3>✅ Cleaned Output (bash copy-paste friendly):</h3>
+  <button id="copyBtn" onclick="copyText()">📋 Copy</button>
+  <span id="copyMsg">✅ Copied!</span>
+  <pre id="cleanedText"></pre>
+
+  <script>
+    // loose but effective detection pattern
+    const PATTERN = /You are a helpful AI assistant.*?other pages to study course materials or research related topics\.?/is;
+
+    function cleanTextInput() {
+      const input = document.getElementById("inputText").value.trim();
+      const cleaned = input.replace(PATTERN, "");
+      document.getElementById("cleanedText").innerText = cleaned;
+    }
+
+    document.getElementById("inputText").addEventListener("input", cleanTextInput);
+
+    function copyText() {
+      const text = document.getElementById("cleanedText").innerText;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copyMsg");
+        msg.classList.add("show");
+        setTimeout(() => msg.classList.remove("show"), 1500);
+        document.getElementById("inputText").value = "";
+        document.getElementById("cleanedText").innerText = "";
+      });
+    }
+  </script>
+</body>
+</html>
