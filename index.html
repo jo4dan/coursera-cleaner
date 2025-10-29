@@ -77,7 +77,7 @@
 
   <script>
     // loose but effective detection pattern
-    const PATTERN = /You are a helpful AI assistant.*?other pages to study course materials or research related topics\.?/is;
+    const PATTERN = /You are a helpful AI assistant[\s\S]*?research related topics\.?/gi;
 
     function cleanTextInput() {
       const input = document.getElementById("inputText").value.trim();
