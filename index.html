@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coursera Cleaner 🧹</title>
+
   <style>
     body {
       background-color: #111;
@@ -11,19 +12,20 @@
       font-family: monospace;
       padding: 20px;
     }
-    textarea {
+    textarea,
+    pre {
       width: 100%;
-      height: 300px;
       background-color: #222;
       color: #eee;
-      border: 1px solid #555;
       padding: 10px;
+    }
+    textarea {
+      height: 300px;
+      border: 1px solid #555;
       resize: vertical;
     }
     pre {
-      background-color: #222;
       color: #0f0;
-      padding: 10px;
       white-space: pre-wrap;
       word-break: break-word;
     }
@@ -43,7 +45,7 @@
       color: #0f0;
       margin-left: 10px;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: 0.3s;
     }
     #copyMsg.show {
       opacity: 1;
@@ -60,6 +62,7 @@
     }
   </style>
 </head>
+
 <body>
   <h2>
     Coursera Text Cleaner 💻
@@ -68,43 +71,44 @@
     </span>
   </h2>
 
-  <textarea id="inputText" placeholder="paste your raw text here..."></textarea><br>
+  <textarea id="inputText" placeholder="paste your raw text here..."></textarea><br />
 
   <h3>✅ Cleaned Output (bash copy-paste friendly):</h3>
-  <button id="copyBtn" onclick="copyText()">📋 Copy</button>
+  <button id="copyBtn">📋 Copy</button>
   <span id="copyMsg">✅ Copied!</span>
+
   <pre id="cleanedText"></pre>
 
   <script>
-    // loose but effective detection pattern
-    const PATTERN = /You are a helpful AI assistant[\s\S]*?research related topics\.?/gi;
+    const inputBox = document.getElementById("inputText");
+    const cleanedBox = document.getElementById("cleanedText");
+    const copyMsg = document.getElementById("copyMsg");
 
-    function cleanTextInput() {
-      const input = document.getElementById("inputText").value.trim();
-      const cleaned = input.replace(PATTERN, "");
-      document.getElementById("cleanedText").innerText = cleaned;
-    }
+    const PATTERN =
+      /You are a helpful AI assistant[\s\S]*?research related topics\.?/gi;
 
-    document.getElementById("inputText").addEventListener("input", cleanTextInput);
+    inputBox.addEventListener("input", () => {
+      cleanedBox.innerText = inputBox.value.trim().replace(PATTERN, "");
+    });
 
-    function copyText() {
-      const text = document.getElementById("cleanedText").innerText;
-      if (!text) return;
-      navigator.clipboard.writeText(text).then(() => {
-        const msg = document.getElementById("copyMsg");
-        msg.classList.add("show");
-        setTimeout(() => msg.classList.remove("show"), 1500);
-        document.getElementById("inputText").value = "";
-        document.getElementById("cleanedText").innerText = "";
+    document.getElementById("copyBtn").addEventListener("click", () => {
+      const output = cleanedBox.innerText;
+      if (!output) return;
+
+      navigator.clipboard.writeText(output).then(() => {
+        copyMsg.classList.add("show");
+        setTimeout(() => copyMsg.classList.remove("show"), 1500);
+
+        inputBox.value = "";
+        cleanedBox.innerText = "";
+        inputBox.focus();
       });
-    }
+    });
+
+    window.onload = () => {
+      inputBox.focus();
+      inputBox.setSelectionRange(inputBox.value.length, inputBox.value.length);
+    };
   </script>
-  <script>
-  window.onload = () => {
-    const box = document.getElementById("inputText");
-    box.focus();
-    box.setSelectionRange(box.value.length, box.value.length); 
-  };
-</script>
 </body>
 </html>
