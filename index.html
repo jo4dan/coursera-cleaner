@@ -99,5 +99,12 @@
       });
     }
   </script>
+  <script>
+  window.onload = () => {
+    const box = document.getElementById("inputText");
+    box.focus();
+    box.setSelectionRange(box.value.length, box.value.length); 
+  };
+</script>
 </body>
 </html>
